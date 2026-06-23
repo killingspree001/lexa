@@ -70,24 +70,24 @@
 	}
 
 	const stats = $derived([
-		{ label: 'Day streak', value: `${progress.streak}`, icon: '🔥' },
-		{ label: 'Cards studied', value: `${progress.cardsStudied}`, icon: '✦' },
-		{ label: 'Quizzes', value: `${progress.quizzesTaken}`, icon: '◎' },
-		{ label: 'Best score', value: progress.bestScore ? `${progress.bestScore}%` : '—', icon: '★' }
+		{ label: 'Day streak', value: `${progress.streak}`, icon: '🔥', tint: 'bg-sun text-ink' },
+		{ label: 'Cards studied', value: `${progress.cardsStudied}`, icon: '✦', tint: 'bg-mint text-ink' },
+		{ label: 'Quizzes', value: `${progress.quizzesTaken}`, icon: '◎', tint: 'bg-coral text-white' },
+		{ label: 'Best score', value: progress.bestScore ? `${progress.bestScore}%` : '—', icon: '★', tint: 'bg-violet text-white' }
 	]);
 </script>
 
 <div class="min-h-screen">
-	<header class="sticky top-0 z-20 border-b border-ink/10 bg-paper/85 backdrop-blur">
-		<div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-3.5">
+	<header class="sticky top-0 z-20 border-b-2 border-ink bg-cream/90 backdrop-blur">
+		<div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-3">
 			<a href="/" class="flex items-center gap-2">
-				<span class="flex h-8 w-8 items-center justify-center rounded-lg bg-grass-500 font-display text-base font-bold text-white">L</span>
-				<span class="font-display text-lg font-bold">Lexa</span>
+				<span class="nb-flat flex h-8 w-8 items-center justify-center bg-violet font-display text-base font-extrabold text-white" style="border-radius:0.55rem">L</span>
+				<span class="font-display text-lg font-extrabold">Lexa</span>
 			</a>
 			{#if view !== 'home'}
-				<button onclick={home} class="text-sm font-semibold text-ink/55 hover:text-ink">Done</button>
+				<button onclick={home} class="nb-btn bg-paper px-4 py-1.5 text-sm">Done</button>
 			{:else}
-				<a href="/" class="text-sm font-semibold text-ink/55 hover:text-ink">Home</a>
+				<a href="/" class="text-sm font-bold text-ink/55 hover:text-ink">Home</a>
 			{/if}
 		</div>
 	</header>
@@ -95,54 +95,54 @@
 	<main class="mx-auto max-w-5xl px-5 py-8">
 		{#if !ready}
 			<div class="flex h-64 items-center justify-center">
-				<div class="h-8 w-8 animate-spin rounded-full border-2 border-grass-100 border-t-grass-500"></div>
+				<div class="h-9 w-9 animate-spin rounded-full border-[3px] border-ink/15 border-t-violet"></div>
 			</div>
 		{:else if view === 'study' && activeDeck}
 			<Flashcards deck={activeDeck} onStudy={recordStudy} onQuiz={() => open(activeDeck.id, 'quiz')} onBack={home} />
 		{:else if view === 'quiz' && activeDeck}
 			<Quiz deck={activeDeck} onFinish={recordQuiz} onBack={home} />
 		{:else}
-			<div class="grid gap-3 sm:grid-cols-4">
-				{#each stats as s (s.label)}
-					<div class="rounded-2xl border border-ink/10 bg-white p-4">
+			<div class="stagger grid gap-4 sm:grid-cols-4">
+				{#each stats as s, i (s.label)}
+					<div class="nb p-4 {s.tint} {i % 2 === 0 ? 'tilt-l' : 'tilt-r'}">
 						<div class="text-2xl">{s.icon}</div>
-						<div class="mt-1 font-display text-2xl font-bold">{s.value}</div>
-						<div class="text-xs text-ink/50">{s.label}</div>
+						<div class="mt-1 font-display text-3xl font-extrabold">{s.value}</div>
+						<div class="text-xs font-bold opacity-70">{s.label}</div>
 					</div>
 				{/each}
 			</div>
 
-			<div class="mt-6">
+			<div class="mt-7">
 				<CreateDeck onCreated={addDeck} />
 			</div>
 
-			<h2 class="mb-4 mt-10 font-display text-xl font-bold">Your decks</h2>
+			<div class="mb-4 mt-10 flex items-center gap-3">
+				<h2 class="font-display text-xl font-extrabold">Your decks</h2>
+				<span class="sticker bg-sun">{decks.length}</span>
+			</div>
+
 			{#if decks.length === 0}
-				<p class="rounded-2xl border border-dashed border-ink/20 py-12 text-center text-ink/50">
+				<p class="nb-flat bg-paper/40 py-12 text-center font-semibold text-ink/55" style="border-style:dashed">
 					No decks yet — build one above to get started.
 				</p>
 			{:else}
-				<div class="stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+				<div class="stagger grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 					{#each decks as deck (deck.id)}
-						<div class="flex flex-col rounded-2xl border border-ink/10 bg-white p-5">
+						<div class="nb bg-paper flex flex-col p-5">
 							<div class="flex items-start justify-between gap-2">
-								<h3 class="font-display text-lg font-bold leading-tight">{deck.topic}</h3>
-								<button onclick={() => removeDeck(deck.id)} class="text-xs font-semibold text-ink/30 hover:text-coral-600">✕</button>
+								<h3 class="font-display text-lg font-extrabold leading-tight">{deck.topic}</h3>
+								<button onclick={() => removeDeck(deck.id)} aria-label="Delete deck" class="nb-btn flex h-7 w-7 items-center justify-center bg-coral text-sm text-white" style="box-shadow:2px 2px 0 0 var(--color-ink)">✕</button>
 							</div>
-							<div class="mt-2 flex items-center gap-2 text-xs">
-								<span class="rounded-full bg-paper px-2 py-0.5 capitalize text-ink/55">{deck.level}</span>
-								<span class="text-ink/45">{deck.cards.length} cards</span>
+							<div class="mt-2 flex flex-wrap items-center gap-2">
+								<span class="sticker bg-mint capitalize">{deck.level}</span>
+								<span class="text-xs font-bold text-ink/50">{deck.cards.length} cards</span>
 								{#if deck.source === 'ai'}
-									<span class="rounded-full bg-grass-100 px-2 py-0.5 font-semibold text-grass-700">AI</span>
+									<span class="sticker bg-violet text-white">AI</span>
 								{/if}
 							</div>
 							<div class="mt-5 flex gap-2">
-								<button onclick={() => open(deck.id, 'study')} class="flex-1 rounded-full bg-grass-500 py-2 text-sm font-semibold text-white transition hover:bg-grass-600">
-									Study
-								</button>
-								<button onclick={() => open(deck.id, 'quiz')} class="flex-1 rounded-full border border-ink/15 py-2 text-sm font-semibold transition hover:bg-ink/5">
-									Quiz
-								</button>
+								<button onclick={() => open(deck.id, 'study')} class="nb-btn flex-1 bg-violet py-2 text-sm text-white">Study</button>
+								<button onclick={() => open(deck.id, 'quiz')} class="nb-btn flex-1 bg-paper py-2 text-sm">Quiz</button>
 							</div>
 						</div>
 					{/each}

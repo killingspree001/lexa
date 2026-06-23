@@ -1,28 +1,24 @@
 @import 'tailwindcss';
 
 @theme {
-	--font-display: 'Space Grotesk', sans-serif;
+	--font-display: 'Unbounded', sans-serif;
 	--font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
 
-	--color-paper: #f7f8f5;
-	--color-ink: #16201c;
+	--color-cream: #fff7e8;
+	--color-paper: #ffffff;
+	--color-ink: #141414;
 
-	--color-grass-50: #edfbf2;
-	--color-grass-100: #d3f5df;
-	--color-grass-200: #a8e9c1;
-	--color-grass-300: #71d79c;
-	--color-grass-400: #3cbd76;
-	--color-grass-500: #1ca25e;
-	--color-grass-600: #128049;
-	--color-grass-700: #11653c;
+	--color-violet: #6c4cf1;
+	--color-violet-700: #4d2fd1;
+	--color-sun: #ffd23f;
+	--color-coral: #ff5c4d;
+	--color-mint: #2bd4a4;
+}
 
-	--color-coral-300: #ffb59c;
-	--color-coral-400: #ff8a6b;
-	--color-coral-500: #f96746;
-	--color-coral-600: #e24a2b;
-
-	--color-lemon-300: #ffe27a;
-	--color-lemon-400: #ffd23f;
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
 }
 
 html {
@@ -30,16 +26,83 @@ html {
 }
 
 body {
-	background: var(--color-paper);
+	background: var(--color-cream);
 	color: var(--color-ink);
 	font-family: var(--font-sans);
 	-webkit-font-smoothing: antialiased;
 }
 
-@keyframes pop-in {
+/* --- Neo-pop building blocks ----------------------------------------- */
+.nb {
+	border: 2.5px solid var(--color-ink);
+	border-radius: 1.1rem;
+	box-shadow: 5px 5px 0 0 var(--color-ink);
+}
+
+.nb-flat {
+	border: 2.5px solid var(--color-ink);
+	border-radius: 1.1rem;
+}
+
+.nb-btn {
+	border: 2.5px solid var(--color-ink);
+	border-radius: 999px;
+	box-shadow: 4px 4px 0 0 var(--color-ink);
+	font-weight: 700;
+	transition:
+		transform 0.08s ease,
+		box-shadow 0.08s ease,
+		background-color 0.15s ease,
+		color 0.15s ease;
+}
+.nb-btn:hover:not(:disabled) {
+	transform: translate(1px, 1px);
+	box-shadow: 3px 3px 0 0 var(--color-ink);
+}
+.nb-btn:active:not(:disabled) {
+	transform: translate(4px, 4px);
+	box-shadow: 0 0 0 0 var(--color-ink);
+}
+.nb-btn:disabled {
+	opacity: 0.5;
+}
+
+.nb-input {
+	border: 2.5px solid var(--color-ink);
+	border-radius: 0.9rem;
+	background: var(--color-paper);
+	transition: box-shadow 0.12s ease;
+}
+.nb-input:focus {
+	outline: none;
+	box-shadow: 4px 4px 0 0 var(--color-violet);
+}
+
+.sticker {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	border: 2px solid var(--color-ink);
+	border-radius: 999px;
+	font-weight: 700;
+	font-size: 0.72rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	padding: 0.28rem 0.7rem;
+}
+
+.tilt-l {
+	transform: rotate(-1.6deg);
+}
+.tilt-r {
+	transform: rotate(1.6deg);
+}
+
+/* --- Motion ----------------------------------------------------------- */
+@keyframes pop {
 	from {
 		opacity: 0;
-		transform: translateY(10px) scale(0.98);
+		transform: scale(0.9) translateY(8px);
 	}
 	to {
 		opacity: 1;
@@ -47,48 +110,46 @@ body {
 	}
 }
 
-@keyframes flip-in {
-	from {
-		opacity: 0;
-		transform: rotateX(-12deg);
-	}
+@keyframes confetti-fall {
 	to {
-		opacity: 1;
-		transform: none;
+		transform: translateY(112vh) rotate(720deg);
+		opacity: 0.85;
+	}
+}
+
+@keyframes float-bob {
+	0%,
+	100% {
+		transform: translateY(0) rotate(-2deg);
+	}
+	50% {
+		transform: translateY(-10px) rotate(-2deg);
 	}
 }
 
 @media (prefers-reduced-motion: no-preference) {
 	.pop-in {
-		animation: pop-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+		animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 	}
 	.stagger > * {
-		animation: pop-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+		animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 	}
 	.stagger > *:nth-child(2) {
-		animation-delay: 60ms;
+		animation-delay: 70ms;
 	}
 	.stagger > *:nth-child(3) {
-		animation-delay: 120ms;
+		animation-delay: 140ms;
 	}
 	.stagger > *:nth-child(4) {
-		animation-delay: 180ms;
+		animation-delay: 210ms;
 	}
 	.stagger > *:nth-child(5) {
-		animation-delay: 240ms;
+		animation-delay: 280ms;
 	}
 	.stagger > *:nth-child(6) {
-		animation-delay: 300ms;
+		animation-delay: 350ms;
 	}
-	button:active:not(:disabled) {
-		transform: scale(0.97);
-	}
-	button {
-		transition:
-			transform 0.12s ease,
-			background-color 0.18s ease,
-			color 0.18s ease,
-			box-shadow 0.2s ease,
-			opacity 0.18s ease;
+	.float-bob {
+		animation: float-bob 4s ease-in-out infinite;
 	}
 }

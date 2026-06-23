@@ -42,49 +42,38 @@
 	}
 </script>
 
-<div class="rounded-3xl border border-ink/10 bg-white p-6 shadow-sm">
-	<h2 class="font-display text-xl font-bold">Build a deck</h2>
-	<p class="mt-1 text-sm text-ink/55">Name a topic and Lexa writes the cards.</p>
+<div class="nb bg-paper p-6">
+	<div class="flex items-center gap-2">
+		<h2 class="font-display text-xl font-extrabold">Build a deck</h2>
+		<span class="sticker bg-sun">AI</span>
+	</div>
+	<p class="mt-1 font-medium text-ink/60">Name a topic and Lexa writes the cards.</p>
 
 	<div class="mt-5 flex flex-col gap-3 sm:flex-row">
 		<input
 			bind:value={topic}
 			onkeydown={(e) => e.key === 'Enter' && generate()}
 			placeholder="e.g. Italian for restaurants"
-			class="min-w-0 flex-1 rounded-xl border border-ink/15 px-4 py-3 outline-none transition focus:border-grass-400 focus:ring-2 focus:ring-grass-100"
+			class="nb-input min-w-0 flex-1 px-4 py-3 font-medium outline-none"
 		/>
-		<select
-			bind:value={level}
-			class="rounded-xl border border-ink/15 bg-white px-3 py-3 outline-none focus:border-grass-400"
-		>
+		<select bind:value={level} class="nb-input px-3 py-3 font-semibold outline-none">
 			<option value="beginner">Beginner</option>
 			<option value="intermediate">Intermediate</option>
 			<option value="advanced">Advanced</option>
 		</select>
-		<button
-			onclick={generate}
-			disabled={loading || !topic.trim()}
-			class="rounded-xl bg-grass-500 px-6 py-3 font-semibold text-white transition hover:bg-grass-600 disabled:opacity-50"
-		>
+		<button onclick={generate} disabled={loading || !topic.trim()} class="nb-btn bg-violet px-6 py-3 text-white">
 			{loading ? 'Building…' : 'Generate'}
 		</button>
 	</div>
 
 	<div class="mt-4 flex flex-wrap items-center gap-2">
-		<span class="text-xs text-ink/40">Try:</span>
+		<span class="text-xs font-bold text-ink/40">Try:</span>
 		{#each examples as ex (ex)}
-			<button
-				onclick={() => (topic = ex)}
-				class="rounded-full bg-paper px-3 py-1 text-xs font-medium text-ink/60 transition hover:bg-grass-100 hover:text-grass-700"
-			>
-				{ex}
-			</button>
+			<button onclick={() => (topic = ex)} class="sticker bg-cream transition hover:bg-sun">{ex}</button>
 		{/each}
 	</div>
 
 	{#if error}
-		<p class="mt-4 rounded-xl bg-coral-50 px-4 py-2.5 text-sm text-coral-600" style="background: color-mix(in srgb, var(--color-coral-500) 10%, white)">
-			{error}
-		</p>
+		<p class="nb-flat mt-4 bg-coral px-4 py-2.5 text-sm font-bold text-white">{error}</p>
 	{/if}
 </div>

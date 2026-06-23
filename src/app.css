@@ -1,0 +1,94 @@
+@import 'tailwindcss';
+
+@theme {
+	--font-display: 'Space Grotesk', sans-serif;
+	--font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+	--color-paper: #f7f8f5;
+	--color-ink: #16201c;
+
+	--color-grass-50: #edfbf2;
+	--color-grass-100: #d3f5df;
+	--color-grass-200: #a8e9c1;
+	--color-grass-300: #71d79c;
+	--color-grass-400: #3cbd76;
+	--color-grass-500: #1ca25e;
+	--color-grass-600: #128049;
+	--color-grass-700: #11653c;
+
+	--color-coral-300: #ffb59c;
+	--color-coral-400: #ff8a6b;
+	--color-coral-500: #f96746;
+	--color-coral-600: #e24a2b;
+
+	--color-lemon-300: #ffe27a;
+	--color-lemon-400: #ffd23f;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	background: var(--color-paper);
+	color: var(--color-ink);
+	font-family: var(--font-sans);
+	-webkit-font-smoothing: antialiased;
+}
+
+@keyframes pop-in {
+	from {
+		opacity: 0;
+		transform: translateY(10px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes flip-in {
+	from {
+		opacity: 0;
+		transform: rotateX(-12deg);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.pop-in {
+		animation: pop-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+	}
+	.stagger > * {
+		animation: pop-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+	}
+	.stagger > *:nth-child(2) {
+		animation-delay: 60ms;
+	}
+	.stagger > *:nth-child(3) {
+		animation-delay: 120ms;
+	}
+	.stagger > *:nth-child(4) {
+		animation-delay: 180ms;
+	}
+	.stagger > *:nth-child(5) {
+		animation-delay: 240ms;
+	}
+	.stagger > *:nth-child(6) {
+		animation-delay: 300ms;
+	}
+	button:active:not(:disabled) {
+		transform: scale(0.97);
+	}
+	button {
+		transition:
+			transform 0.12s ease,
+			background-color 0.18s ease,
+			color 0.18s ease,
+			box-shadow 0.2s ease,
+			opacity 0.18s ease;
+	}
+}
